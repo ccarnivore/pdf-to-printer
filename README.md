@@ -1,6 +1,5 @@
 # Node.js PDF printing
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/12492daabeec4f87851f36616817afc1)](https://app.codacy.com/app/artur.khusaenov/pdf-to-printer?utm_source=github.com&utm_medium=referral&utm_content=artiebits/pdf-to-printer&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://api.cirrus-ci.com/github/artiebits/pdf-to-printer.svg)](https://cirrus-ci.com/github/artiebits/pdf-to-printer) [![codecov](https://codecov.io/gh/artiebits/pdf-to-printer/branch/master/graph/badge.svg)](https://codecov.io/gh/artiebits/pdf-to-printer)
 
 A utility to print PDF files from Node.js and Electron.
@@ -27,9 +26,9 @@ npm install --save pdf-to-printer
 Print a PDF file to the default printer:
 
 ```javascript
-import printer from "pdf-to-printer";
+import ptp from "pdf-to-printer";
 
-printer
+ptp
   .print("assets/pdf-sample.pdf")
   .then(console.log)
   .catch(console.error);
@@ -57,7 +56,7 @@ You may take a look at [this example](/examples/express-server) if you need to d
 To print a PDF file to the default printer:
 
 ```javascript
-printer
+ptp
   .print("assets/pdf-sample.pdf")
   .then(console.log)
   .catch(console.error);
@@ -70,7 +69,7 @@ const options = {
   printer: "Zebra"
 };
 
-printer
+ptp
   .print("assets/pdf-sample.pdf", options)
   .then(console.log)
   .catch(console.error);
@@ -81,17 +80,17 @@ To scale the PDF to fit into the printable area of the paper on both Windows and
 ```javascript
 const options = {
   printer: "Zebra",
-  unix: ["-n 2"],
-  win32: ['-print-settings "2x"']
+  unix: ["-o fit-to-page"],
+  win32: ['-print-settings "fit"']
 };
 
-printer
+ptp
   .print("assets/pdf-sample.pdf", options)
   .then(console.log)
   .catch(console.error);
 ```
 
-### `.list() => Promise<string[]>`
+### `.getPrinters() => Promise<string[]>`
 
 **Returns**
 
@@ -100,8 +99,23 @@ printer
 **Examples**
 
 ```javascript
-printer
-  .list()
+ptp
+  .getPrinters()
+  .then(console.log)
+  .catch(console.error);
+```
+
+### `.getDefaultPrinter() => Promise<string>`
+
+**Returns**
+
+`Promise<string>`: Default printer.
+
+**Examples**
+
+```javascript
+ptp
+  .getDefaultPrinter()
   .then(console.log)
   .catch(console.error);
 ```
