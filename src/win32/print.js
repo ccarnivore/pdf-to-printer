@@ -10,12 +10,27 @@ const print = (pdf, options = {}) => {
   if (typeof pdf !== "string") throw "Invalid PDF name";
   if (!fs.existsSync(pdf)) throw "No such file";
 
+  const args = [];
+  const {
+    printer,
+    win32,
+    alternativeExecutable,
+    alternativeWin32 = []
+  } = options;
+
+  if (alternativeExecutable) {
+    if (alternativeWin32) {
+      if (!Array.isArray(alternativeWin32))
+        throw "options.alternateWin32 should be an array";
+    }
+
+    args.push(pdf);
+    alternativeWin32.map(arg => args.push(...arg.split(" ")));
+    return execAsync(alternativeExecutable, args);
+  }
+
   let file = path.join(__dirname, "SumatraPDF.exe");
   file = fixPathForAsarUnpack(file);
-
-  const args = [];
-
-  const { printer, win32 } = options;
 
   if (printer) {
     args.push("-print-to", printer);
