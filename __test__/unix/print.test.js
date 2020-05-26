@@ -54,6 +54,29 @@ test("sends PDF file to the specific printer", () => {
   });
 });
 
+test("sends PDF file to an alternative print executable", () => {
+  const filename = "assets/pdf-sample.pdf";
+  const options = { alternativeExecutable: "/foo/bar" };
+  return print(filename, options).then(() => {
+    expect(execAsync).toHaveBeenCalledWith("/foo/bar", [filename]);
+  });
+});
+
+test("sends PDF file to an alternative print executable with alternative options", () => {
+  const filename = "assets/pdf-sample.pdf";
+  const options = {
+    alternativeExecutable: "/foo/bar",
+    alternativeUnix: ["-printer Zebra"]
+  };
+  return print(filename, options).then(() => {
+    expect(execAsync).toHaveBeenCalledWith("/foo/bar", [
+      "-printer",
+      "Zebra",
+      filename
+    ]);
+  });
+});
+
 test("allows users to pass OS specific options", () => {
   const filename = "assets/pdf-sample.pdf";
   const printer = "Zebra";

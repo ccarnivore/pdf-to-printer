@@ -24,8 +24,9 @@ const print = (pdf, options = {}) => {
         throw "options.alternateWin32 should be an array";
     }
 
-    args.push(pdf);
     alternativeWin32.map(arg => args.push(...arg.split(" ")));
+    args.push(pdf);
+
     return execAsync(alternativeExecutable, args);
   }
 

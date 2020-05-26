@@ -84,9 +84,9 @@ test("sends PDF file to an alternative print executable with alternative options
   };
   return print(filename, options).then(() => {
     expect(execAsync).toHaveBeenCalledWith("FooBar.exe", [
-      filename,
       "-printer",
-      "Zebra"
+      "Zebra",
+      filename
     ]);
   });
 });
