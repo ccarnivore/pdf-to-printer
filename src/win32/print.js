@@ -11,24 +11,7 @@ const print = (pdf, options = {}) => {
   if (!fs.existsSync(pdf)) throw "No such file";
 
   const args = [];
-  const {
-    printer,
-    win32,
-    alternativeExecutable,
-    alternativeWin32 = []
-  } = options;
-
-  if (alternativeExecutable) {
-    if (alternativeWin32) {
-      if (!Array.isArray(alternativeWin32))
-        throw "options.alternateWin32 should be an array";
-    }
-
-    alternativeWin32.map(arg => args.push(...arg.split(" ")));
-    args.push(pdf);
-
-    return execAsync(alternativeExecutable, args);
-  }
+  const { printer, win32 } = options;
 
   let file = path.join(__dirname, "SumatraPDF.exe");
   file = fixPathForAsarUnpack(file);

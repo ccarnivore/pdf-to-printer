@@ -68,29 +68,6 @@ test("sends PDF file to the specific printer", () => {
   });
 });
 
-test("sends PDF file to an alternative print executable", () => {
-  const filename = "assets/pdf-sample.pdf";
-  const options = { alternativeExecutable: "FooBar.exe" };
-  return print(filename, options).then(() => {
-    expect(execAsync).toHaveBeenCalledWith("FooBar.exe", [filename]);
-  });
-});
-
-test("sends PDF file to an alternative print executable with alternative options", () => {
-  const filename = "assets/pdf-sample.pdf";
-  const options = {
-    alternativeExecutable: "FooBar.exe",
-    alternativeWin32: ["-printer Zebra"]
-  };
-  return print(filename, options).then(() => {
-    expect(execAsync).toHaveBeenCalledWith("FooBar.exe", [
-      "-printer",
-      "Zebra",
-      filename
-    ]);
-  });
-});
-
 test("allows users to pass OS specific options", () => {
   const filename = "assets/pdf-sample.pdf";
   const printer = "Zebra";
