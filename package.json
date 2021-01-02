@@ -16,6 +16,7 @@
     "test": "jest",
     "lint": "eslint src __test__ webpack.production.config.js examples",
     "build": "webpack --config webpack.production.config.js",
+    "prepare": "npm run build",
     "prepublishOnly": "npm run lint && npm run test && npm run build"
   },
   "devDependencies": {

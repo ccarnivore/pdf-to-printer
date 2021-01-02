@@ -10,17 +10,30 @@ const print = (pdf, options = {}) => {
   if (typeof pdf !== "string") throw "Invalid PDF name";
   if (!fs.existsSync(pdf)) throw "No such file";
 
-  let file = path.join(__dirname, "SumatraPDF.exe");
-  file = fixPathForAsarUnpack(file);
-
+  let file;
   const args = [];
+  const { printer, win32, gsprint } = options;
+  if (gsprint) {
+    if (!gsprint.executable) throw "gsprint executable not defined";
 
-  const { printer, win32 } = options;
+    file = gsprint.executable;
+    if (!fs.existsSync(file)) {
+      throw "gsprint executable not found";
+    }
+    args.push("-noquery");
 
-  if (printer) {
-    args.push("-print-to", printer);
+    if (printer) {
+      args.push("-printer", printer);
+    }
   } else {
-    args.push("-print-to-default");
+    file = fixPathForAsarUnpack(path.join(__dirname, "SumatraPDF.exe"));
+    args.push("-silent");
+
+    if (printer) {
+      args.push("-print-to", printer);
+    } else {
+      args.push("-print-to-default");
+    }
   }
 
   if (win32) {
@@ -28,8 +41,7 @@ const print = (pdf, options = {}) => {
     win32.map(win32Arg => args.push(...win32Arg.split(" ")));
   }
 
-  args.push("-silent", pdf);
-
+  args.push(pdf);
   return execAsync(file, args);
 };
 

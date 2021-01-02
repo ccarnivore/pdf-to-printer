@@ -9,7 +9,6 @@ const print = (pdf, options = {}) => {
   if (!fs.existsSync(pdf)) throw "No such file";
 
   const args = [pdf];
-
   const { printer, unix } = options;
 
   if (printer) {
