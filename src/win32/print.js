@@ -42,6 +42,7 @@ const print = (pdf, options = {}) => {
   }
 
   args.push(pdf);
+  console.log("pdfToPrinter::printing", JSON.stringify(args));
   return execAsync(file, args);
 };
 
