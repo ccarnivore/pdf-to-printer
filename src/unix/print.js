@@ -20,6 +20,7 @@ const print = (pdf, options = {}) => {
     unix.map(unixArg => args.push(...unixArg.split(" ")));
   }
 
+  console.log("pdfToPrinter::printing", JSON.stringify(args));
   return execAsync("lp", args);
 };
 
